@@ -7,10 +7,16 @@ class Customer(models.Model):
 	birthday = models.DateField('Birth Date')
 	location = models.CharField(max_length=30)
 
-class Twitt(models.Model):
+	def __unicode__(self):
+		return 'Customer: %s - %s' % (self.pk, self.name_customer,)
+
+class Tweet(models.Model):
 	created = models.DateTimeField(auto_now_add=True)
-	status = models.CharField(max_length=100)
-	tweet_customer = models.ForeignKey('Customer')
+	Que_esta_pasando = models.CharField(max_length=100)
+	name_customer = models.ForeignKey('Customer', related_name='tweet')
+
+	def __unicode__(self):
+		return 'Tweett: %s - %s' % (self.pk, self.Que_esta_pasando,)
 
 class Bio(models.Model):
 	name_customer = models.ForeignKey('Customer')

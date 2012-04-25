@@ -1,0 +1,18 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h10>Welcome to Register of Twitter from Alex and Erwin</h10>
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<p><li><input type= 'checkbox'>Are you agree with the terms and conditions of use.</li></p>
+		<input href="{% url home%}" type="submit" value="Register"/>
+<label>
+<input name="LPD" type="checkbox" value="LPD">
+He leido y acepto la clausula de proteccion de datos
+</label> 
+	</form>
+</body>
+</html>

@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
+    url(r'^', include ('main.urls')),
     # url(r'^$', 'twitter.views.home', name='home'),
     # url(r'^twitter/', include('twitter.foo.urls')),
 
