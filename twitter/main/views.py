@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from main.models import Tweet 
 from main.forms import TweetForm
-from main.forms import RegisterForm
+from main.forms import UserCreationForm
 
 
 def home(request):
@@ -22,9 +22,9 @@ def add_tweet(request):
 	}, RequestContext(request))
 
 def register(request):
-	form = RegisterForm()
+	form = UserCreationForm()
 	if request.method == 'POST':
-		form = RegisterForm(request.POST)
+		form = UserCreationForm(request.POST)
 		if form.is_valid():
 			form.save()
 			return redirect('home')
