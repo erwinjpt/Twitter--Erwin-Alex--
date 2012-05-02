@@ -1,5 +1,6 @@
 from django import forms
-from main.models import Tweet, User
+from django.contrib.auth.models import User
+from main.models import Tweet
 from django.forms.fields import DateField, ChoiceField, MultipleChoiceField
 from django.forms.widgets import RadioSelect, CheckboxSelectMultiple
 from django.forms.extras.widgets import SelectDateWidget   
@@ -10,13 +11,7 @@ class TweetForm(forms.ModelForm):
 	class Meta:
 		model = Tweet 
 
-BIRTH_YEAR_CHOICES = ('1990','1980', '1981', '1982')
-GENDER_CHOICES = (('m', 'Male'), ('f', 'Female'))
-FAVORITE_COLORS_CHOICES = (('blue', 'Blue'),
-                            ('green', 'Green'),
-                            ('black', 'Black'))
-
-class UserCreationForm(UserCreationForm):
+class UserCreationForm(forms.ModelForm):
 
     username = forms.RegexField(label=("Username"), max_length=30, regex=r'^[\w.@+-]+$', help_text = ("Required. 30 characters or fewer. Letters, digits and @/./+/-/_ only."),error_messages = {'invalid': ("This value may contain only letters, numbers and @/./+/-/_ characters.")})
     first_name = forms.CharField(label=("First_name"), max_length=30)
@@ -28,7 +23,7 @@ class UserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ("username",)
+        fields = ("username","first_name","last_name","email",)
 
     def clean_username(self):
         username = self.cleaned_data["username"]
