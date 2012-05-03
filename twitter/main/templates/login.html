@@ -1,0 +1,18 @@
+{% block contenido %}
+	<div class="row">
+		<div class="span3">
+			<h2>Bienvenido a Twitter.</h2>
+			<p>Descubre lo que está pasando ahora, con las personas y grupos que te interesan.</p>
+		</div>
+		<div class="span3">
+			<h2>Login</h2>
+			<p>
+				<form class="form-inline" action="/login_process/" method="post">
+					{{ mensaje_login }}
+					{% csrf_token %}
+					<input type="text" name="user" placeholder="Nombre de usuario"><br>
+					<input type="password" name="password" placeholder="Contraseña"><br>
+					<input class="btn" type="submit" value="Log in">
+				</form>
+			</p>
+{% endblock %}
