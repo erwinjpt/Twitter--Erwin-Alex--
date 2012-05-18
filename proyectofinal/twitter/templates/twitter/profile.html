@@ -1,0 +1,71 @@
+{% extends 'twitter/base.html' %}
+{% block titulo %}Twitter - {{ user.get_full_name }} (@{{ user.username }}){% endblock %}
+{% block textarea %}@{{ user.username }} {% endblock %}
+{% block contenido %}
+<section>
+	<header>
+		<h2>{{ user.get_full_name }} (@{{ user.username }})</h2>
+		<h3>{{ profile.ubicacion }}</h3>
+		<p>
+			{{ profile.frase|linebreaksbr }}
+		</p><p>
+			Joined on {{ user.date_joined }}<br>
+			Email: <a style="color: red" href="mailto:{{ user.email }}">{{ user.email }}</a>
+		</p>
+		{% if logueado.is_authenticated %}
+		{% if logueado != user %}
+			<form action="/twitter/follow/" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="user" value="{{ user.username }}">
+				<p>
+					{% if following %}
+						<input class="btn btn-danger" type="submit" value="Dejar de seguir">
+					{% else %}
+						<input class="btn btn-success" type="submit" value="Seguir">
+					{% endif %}
+				</p>
+			</form>
+		{% endif %}
+		{% endif %}
+		<div class="pagination">
+			<ul>
+				<li><a style="color: red" href="#tweets">{{ length }} tweet{{ length|pluralize }}</a></li>
+				<li><a style="color: red" href="/twitter/seguidores/{{ user.username }}/">{{ seguidores|length }} Followers</li></a>
+				<li><a style="color: red" href="/twitter/siguiendo/{{ user.username }}/">{{ siguiendo|length }} Following</li></a>
+			</ul>
+	</header>
+</section>
+<section>
+	{% if tweets|length %}
+		<header id="tweets">
+			<h2>Last tweets</h2>
+		</header>
+		{% for tweet in tweets %}
+			<article>
+				<header>
+					<h3>{{ tweet.user.get_full_name }} (@<a style="color: red" href="/twitter/profile/{{ tweet.user }}">{{ tweet.user }}</a>)</h3>
+				</header>
+				{{ tweet.filtrar|safe|linebreaksbr }}
+				<footer>
+					<p>
+					<strong>Published: {{ tweet.fecha }}</strong>
+						{% if tweet.user == logueado %}
+							<a style="color: red" href="/twitter/borrar/{{ tweet.id }}/">Delete</a>
+						{% endif %}
+					</p>
+				</footer>
+			</article>
+		{% endfor %}
+	{% else %}
+		<header><h3>No tweets here</h3></header>
+	{% endif %}
+	<footer>
+		<div class="pagination">
+			<ul>
+			<li class="prev{% if page < 2 %} disabled{% endif %}"><a style="color: red" href="/twitter/profile/{{ user.username }}/{{ page_prefix }}page/{{ prev }}/{{ page_sufix }}">&larr; Back</a></li>
+			<li class="next"><a style="color: red" href="/twitter/profile/{{ user.username }}/{{ page_prefix }}page/{{ next }}/{{ page_sufix }}">Next &rarr;</a></li>
+			</ul>
+		</div>
+	</footer>
+</section>
+{% endblock %}

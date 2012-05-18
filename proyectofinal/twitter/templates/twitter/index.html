@@ -1,0 +1,35 @@
+{% extends 'twitter/base.html' %}
+{% block contenido %}
+<section>
+	{% if tweets|length %}
+		{% for tweet in tweets %}
+			<article>
+				<header>
+					<h3>{{ tweet.user.get_full_name }} (@<a style="color: red" href="/twitter/profile/{{ tweet.user }}">{{ tweet.user }}</a>)</h3>
+				</header>
+				{{ tweet.filtrar|safe|linebreaksbr }}
+				<footer>
+					<p>
+					<strong>Published: {{ tweet.fecha }}</strong>
+						{% if tweet.user == logueado %}
+							<a style="color: red" href="/twitter/borrar/{{ tweet.id }}/">Delete</a>
+						{% endif %}
+					</p>
+				</footer>
+			</article>
+		{% endfor %}
+	{% else %}
+		<header>
+			<h3>No tweets here</h3>
+		</header>
+	{% endif %}
+		<footer>
+			<div class="pagination">
+				<ul>
+				<li class="prev{% if page < 2 %} disabled{% endif %}"><a style="color: red" href="/twitter/{{ page_prefix }}page/{{ prev }}/{{ page_sufix }}">&larr; Back</a></li>
+				<li class="next"><a style="color: red" href="/twitter/{{ page_prefix }}page/{{ next }}/{{ page_sufix }}">Next &rarr;</a></li>
+				</ul>
+			</div>
+		</footer>
+</section>
+{% endblock %}

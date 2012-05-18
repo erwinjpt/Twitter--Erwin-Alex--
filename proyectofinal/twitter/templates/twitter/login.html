@@ -1,0 +1,25 @@
+{% extends 'twitter/base.html' %}
+{% block contenido %}
+	<div class="row">
+		<div class="span3">
+			<h2>Welcome to Twitter.</h2>
+			<p>Find out what's happening now, with people and groups that interest you.</p>
+		</div>
+		<div class="span3">
+			<h2>Login</h2>
+			<p>
+				<form class="form-inline" action="/twitter/login/process/" method="post">
+					{{ mensaje_login }}
+					{% csrf_token %}
+					<input type="text" name="user" placeholder="Name of User"><br>
+					<input type="password" name="pass" placeholder="Pass"><br>
+					<input class="btn" type="submit" value="Log in">
+				</form>
+			</p>
+		</div>
+		<div class="span6">
+			<h2>Are you new in Twitter??</h2>
+			<p>Register now:</p>
+			<p>	<input class="btn" type="submit" value="Register" onclick="location.href = '/twitter/login/register/'"></p>
+		</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<script type="text/javascript" src="{{ STATIC_URL }}jquery.js"></script>
+	<meta charset="utf-8">
+	<title>{% block titulo %}Twitter{% endblock %}</title>
+	<!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+	<link href="/static/twitter/css/bootstrap.min.css" rel="stylesheet">
+	<style>body { padding-top: 150px; padding-left: 250px; } </style>
+	<link href="/static/twitter/css/bootstrap-responsive.min.css" rel="stylesheet">
+</head>
+<style type="text/css">
+body{
+	background-image: url('{{ STATIC_URL }}twitter2.jpg');
+}
+#barrasuperior{
+position: fixed;
+top: 0px;
+left: 0px;
+width: 2000px;
+height: 43px;
+background: blue;
+}
+#mytwitter{
+position: fixed;
+top: 0px;
+left: 150px;
+width: 205px;
+height: 46px;
+background: url('{{ STATIC_URL }}logo.png') top left;
+}
+
+</style>
+<body>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="/static/twitter/js/bootstrap.min.js"></script>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<div class="nav-collapse">
+					<ul class="nav">
+						{% if logueado %}
+							<li>
+								<div class="btn-group">
+							  <a class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+							    @{{ logueado.username }} 
+							    <span class="caret"></span>
+							  </a>
+							  <ul class="dropdown-menu">
+							    <li><a href="/twitter/">Home</a></li>
+							    <li><a href="/twitter/profile/{{ logueado.username }}/">My profile</a></li>
+							    <li><a href="/twitter/configuracion/">Configurate profile</a></li>
+							    <li class="divider"></li>
+							    <li><a href="/twitter/logout/">Logout</a></li>
+							  </ul>
+							 </div>
+							</li>
+						{% endif %}
+					</ul>
+					{% if logueado %}
+						<form action="/twitter/buscar/" method="get">
+							<input type="text" name="busqueda" value="{{ busqueda }}" placeholder="Find">
+							<input type="submit" value="Find" class="btn btn-success">
+						</form>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+<div class="container">
+	<div class="row">
+		{% if logueado %}
+		<div class="span4">
+			<h3>{% block fasttweet %}Fast Tweet{% endblock %}</h2>
+				<form action="/twitter/tweet/" method="post">
+					{% csrf_token %}
+					{% block respuesta %}{% endblock %}
+					<p>
+						<textarea name="content" maxlength="140" rows="5" cols="50">{% block textarea %}{% endblock %}</textarea><br>
+						<input class="btn btn-success" type="submit" value="Tweetear">
+					</p>
+				</form>
+			<section>
+				<header>
+					<h3>{{ logueado.get_full_name }} (<a style="color: red" href="/twitter/profile/{{ logueado }}/">@{{ logueado }}</a>)</h3>
+					<div class="pagination">
+						<ul>
+							<li><a style="color: red" href="/twitter/profile/{{ logueado }}/">{{ ntweets }} tweet{{ ntweets|pluralize }}</a></li>
+							<li><a style="color: red" href="/twitter/seguidores/{{ logueado }}/">{{ u_seguidores }} Followers</a></li>
+							<li><a style="color: red" href="/twitter/siguiendo/{{ user.username }}/">{{ u_siguiendo }} Following</a></li>
+						</ul>
+					</div>
+				</header>
+			</section>
+		</div>
+		{% endif %}
+		<div class="span{% if logueado %}8{% else %}12{% endif %}">
+			{% block contenido %}
+			{{ mensaje }}
+			{% endblock %}
+		</div>
+	</div>
+</div>
+<div id="barrasuperior"></div>
+  <div id="mytwitter"></div><p>
+</body>
+</html>

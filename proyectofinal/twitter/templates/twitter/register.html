@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="{{ STATIC_URL }}jquery.js"></script>
+</head>
+<style type="text/css">
+body{
+	background-image: url('{{ STATIC_URL }}twitter.jpg');
+}
+#barrasuperior{
+position: fixed;
+top: 0px;
+left: 0px;
+width: 2000px;
+height: 43px;
+background: black;
+}
+#mytwitter{
+position: fixed;
+top: 0px;
+left: 150px;
+width: 205px;
+height: 46px;
+background: url('{{ STATIC_URL }}logo.png') top left;
+}
+</style>
+<body>
+<div id="barrasuperior">
+  <div id="mytwitter"></div><p>
+  </div><p>
+  <br><br><br>
+{% block contenido %}
+	<div class="row">
+		<div class="span3">
+		<div class="span6">
+			<font color="white" size="6">Register for new users</font>
+			<p>
+				{{ mensaje_register }}
+				<form action="/twitter/register/" method="post">
+					{% csrf_token %}
+					<input type="hidden" name="procesa" value="1">
+					<input type="text" name="user" placeholder="Usuario"><br>
+					<input type="password" name="pass" placeholder="Password"><br>
+					<input type="password" name="pass2" placeholder="Repite tu password"><br>
+					<input type="text" name="firstname" placeholder="Nombre"><br>
+					<input type="text" name="lastname" placeholder="Apellido"><br>
+					<input type="text" name="email" placeholder="E-Mail: "><br>
+					<input type="text" name="ubicacion" placeholder="Ubicacion"><br>
+					<textarea placeholder="Biografia corta(160 caracteres): " name="bio" maxlength="140" rows="5"></textarea><br>
+					<input class="btn" type="submit" value="Register">
+				</form>
+			</p>
+		</div>
+{% endblock %}
+</body>
+</html>
+
+
+
